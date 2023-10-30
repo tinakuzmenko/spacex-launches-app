@@ -27,7 +27,7 @@ const Navigation = () => {
   };
 
   return (
-    <header>
+    <nav>
       <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -123,7 +123,7 @@ const Navigation = () => {
           </Toolbar>
         </Container>
       </AppBar>
-    </header>
+    </nav>
   );
 };
 export default Navigation;

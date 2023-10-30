@@ -1,14 +1,25 @@
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { Route, Routes } from 'react-router-dom';
+
 import LaunchList from './components/launches/LaunchList';
-import Footer from './components/layout/Footer';
-import Navigation from './components/layout/Navigation';
+import Selected from './components/launches/Selected';
+import PageLayout from './components/layout/PageLayout';
+
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  uri: 'https://spacex-production.up.railway.app/',
+});
 
 function App() {
   return (
-    <div>
-      <Navigation />
-      <LaunchList />
-      <Footer />
-    </div>
+    <ApolloProvider client={client}>
+      <PageLayout>
+        <Routes>
+          <Route path="/" element={<LaunchList />} />
+          <Route path="/selected" element={<Selected />} />
+        </Routes>
+      </PageLayout>
+    </ApolloProvider>
   );
 }
 
