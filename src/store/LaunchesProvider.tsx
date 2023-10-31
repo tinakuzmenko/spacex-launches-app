@@ -1,16 +1,13 @@
-import React, { FC, PropsWithChildren, useEffect, useReducer } from 'react';
+import React, { FC, PropsWithChildren, useReducer } from 'react';
 
 import { Launch } from '../types/types';
-import { getFromStorage, setToStorage } from '../utils/storage';
 
 import LaunchesContext from './launchesContext';
 import { launchesReducer, LaunchesState } from './launchesReducer';
 
-const selectedLaunches = getFromStorage('selectedLaunches') ?? [];
-
 const defaultLaunchesState: LaunchesState = {
   launches: [],
-  selectedLaunches,
+  selectedLaunches: [],
   totalSelectedLaunchesMass: 0,
 };
 
@@ -19,10 +16,6 @@ const LaunchesProvider: FC<PropsWithChildren> = props => {
     launchesReducer,
     defaultLaunchesState,
   );
-
-  useEffect(() => {
-    setToStorage('selectedLaunches', launchesState.selectedLaunches);
-  }, [launchesState.selectedLaunches]);
 
   const selectLaunchHandler = (id: string) => {
     dispatchLaunchesAction({
@@ -43,8 +36,6 @@ const LaunchesProvider: FC<PropsWithChildren> = props => {
       payload: { launches },
     });
   };
-
-  const calculateTotalMass = () => {};
 
   const launchesContext = {
     launches: launchesState.launches,

@@ -51,9 +51,20 @@ export const launchesReducer = (
   }
 
   if (action.type === 'UPDATE_LAUNCHES') {
+    const launches = action.payload.launches ?? state.launches;
+    const sortedLaunches = [...launches].sort((a, b) => {
+      if (a.launch_date_local > b.launch_date_local) {
+        return -1;
+      }
+      if (a.launch_date_local < b.launch_date_local) {
+        return 1;
+      }
+      return 0;
+    });
+
     return {
       ...state,
-      launches: action.payload.launches ?? state.launches,
+      launches: sortedLaunches,
     };
   }
 

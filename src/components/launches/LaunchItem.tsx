@@ -1,8 +1,11 @@
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Modal } from '@mui/material';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
 import * as React from 'react';
@@ -11,6 +14,8 @@ import { FC, useContext, useEffect, useState } from 'react';
 import launchesContext from '../../store/launchesContext';
 import { Launch } from '../../types/types';
 
+import LaunchDetailModal from './LaunchDetailModal';
+
 interface LaunchItemProps {
   launch: Launch;
 }
@@ -18,10 +23,11 @@ interface LaunchItemProps {
 const LaunchItem: FC<LaunchItemProps> = ({ launch }) => {
   const ctx = useContext(launchesContext);
   const [isSelected, setIsSelected] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const detailsClickHandler = () => setIsOpen(true);
+  const closeHandler = () => setIsOpen(false);
 
   const parsedDate = dayjs(launch.launch_date_local).format('DD MMMM YYYY');
-
-  console.log(launch);
 
   useEffect(() => {
     setIsSelected(
@@ -40,42 +46,41 @@ const LaunchItem: FC<LaunchItemProps> = ({ launch }) => {
   };
 
   return (
-    <Card
-      sx={{
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      <CardMedia
-        component="div"
+    <>
+      <Card
         sx={{
-          // 16:9
-          pt: '56.25%',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
         }}
-        image={
-          launch.links.flickr_images[0] ??
-          'https://source.unsplash.com/random?space'
-        }
+      >
+        <CardContent sx={{ flexGrow: 1 }}>
+          <Typography gutterBottom variant="h5" component="h2">
+            {launch.mission_name}
+          </Typography>
+          <Typography>{parsedDate}</Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small" onClick={detailsClickHandler}>
+            Details
+          </Button>
+          <Button
+            size="small"
+            variant="contained"
+            startIcon={!isSelected ? <AddIcon /> : <DeleteIcon />}
+            color={!isSelected ? 'primary' : 'secondary'}
+            onClick={!isSelected ? selectClickHandler : deselectClickHandler}
+          >
+            {!isSelected ? 'Select' : 'Deselect'}
+          </Button>
+        </CardActions>
+      </Card>
+      <LaunchDetailModal
+        onClose={closeHandler}
+        launch={launch}
+        isOpen={isOpen}
       />
-      <CardContent sx={{ flexGrow: 1 }}>
-        <Typography gutterBottom variant="h5" component="h2">
-          {launch.mission_name}
-        </Typography>
-        <Typography>{launch.rocket.rocket_name}</Typography>
-        <Typography>{launch.rocket.rocket_type}</Typography>
-        <Typography>{parsedDate}</Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Details</Button>
-        <Button
-          size="small"
-          onClick={!isSelected ? selectClickHandler : deselectClickHandler}
-        >
-          {!isSelected ? 'Select' : 'Deselect'}
-        </Button>
-      </CardActions>
-    </Card>
+    </>
   );
 };
 
