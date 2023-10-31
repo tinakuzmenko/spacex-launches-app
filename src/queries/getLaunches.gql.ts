@@ -33,6 +33,11 @@ export const getLaunchesByMissionQuery = gql`
       rocket {
         rocket_name
         rocket_type
+        rocket {
+          mass {
+            kg
+          }
+        }
       }
     }
   }

@@ -10,5 +10,10 @@ export interface Launch {
   rocket: {
     rocket_name: string;
     rocket_type: string;
+    rocket: {
+      mass: {
+        kg: number;
+      };
+    };
   };
 }

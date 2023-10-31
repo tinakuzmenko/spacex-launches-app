@@ -11,6 +11,7 @@ const selectedLaunches = getFromStorage('selectedLaunches') ?? [];
 const defaultLaunchesState: LaunchesState = {
   launches: [],
   selectedLaunches,
+  totalSelectedLaunchesMass: 0,
 };
 
 const LaunchesProvider: FC<PropsWithChildren> = props => {
@@ -43,9 +44,12 @@ const LaunchesProvider: FC<PropsWithChildren> = props => {
     });
   };
 
+  const calculateTotalMass = () => {};
+
   const launchesContext = {
     launches: launchesState.launches,
     selectedLaunches: launchesState.selectedLaunches,
+    totalSelectedLaunchesMass: launchesState.totalSelectedLaunchesMass,
     updateLaunches: updateLaunchesHandler,
     selectLaunch: selectLaunchHandler,
     deselectLaunch: deselectLaunchHandler,

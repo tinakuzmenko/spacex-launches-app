@@ -1,30 +1,21 @@
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import { useContext, useEffect, useState } from 'react';
+import * as http2 from 'http2';
 
+import { useContext } from 'react';
+
+import SelectedLaunchesTable from '../components/launches/SelectedLaunchesTable';
 import launchesContext from '../store/launchesContext';
-import { Launch } from '../types/types';
 
 const Selected = () => {
   const ctx = useContext(launchesContext);
+  const isEmpty = ctx.selectedLaunches.length === 0;
 
-  console.log(ctx);
-
-  return (
-    <Box
-      sx={{
-        bgcolor: 'background.paper',
-        pt: 8,
-        pb: 6,
-      }}
-    >
-      <Container sx={{ py: 0 }} maxWidth="md">
-        <h1>Selected items:</h1>
-        {ctx.selectedLaunches.map(selectedLaunch => (
-          <p key={selectedLaunch.id}>{selectedLaunch.mission_name}</p>
-        ))}
-      </Container>
-    </Box>
+  return isEmpty ? (
+    <h2>Your list of selected items is empty.</h2>
+  ) : (
+    <>
+      <h2>Selected items:</h2>
+      <SelectedLaunchesTable />
+    </>
   );
 };
 

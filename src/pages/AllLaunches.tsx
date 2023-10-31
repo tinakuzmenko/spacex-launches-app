@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client';
+import { Alert, AlertTitle, CircularProgress } from '@mui/material';
 import * as React from 'react';
 import { useContext, useEffect } from 'react';
 
@@ -19,9 +20,16 @@ const AllLaunches = () => {
     ctx.updateLaunches(data.launches);
   }, [data]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <CircularProgress />;
 
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) {
+    return (
+      <Alert severity="error">
+        <AlertTitle>Error</AlertTitle>
+        {error.message}
+      </Alert>
+    );
+  }
 
   return <LaunchList />;
 };

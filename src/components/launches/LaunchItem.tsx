@@ -21,6 +21,8 @@ const LaunchItem: FC<LaunchItemProps> = ({ launch }) => {
 
   const parsedDate = dayjs(launch.launch_date_local).format('DD MMMM YYYY');
 
+  console.log(launch);
+
   useEffect(() => {
     setIsSelected(
       ctx.selectedLaunches.some(

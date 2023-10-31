@@ -16,13 +16,16 @@ const LaunchList = () => {
   }, [ctx.launches]);
 
   return (
-    <Grid container spacing={4}>
-      {launches.map((launch: Launch) => (
-        <Grid item key={launch.id} xs={12} sm={6} md={4}>
-          <LaunchItem launch={launch} />
-        </Grid>
-      ))}
-    </Grid>
+    <>
+      <h2>Total results: {launches.length}</h2>
+      <Grid container spacing={4}>
+        {launches.map((launch: Launch) => (
+          <Grid item key={launch.id} xs={12} sm={6} md={4}>
+            <LaunchItem launch={launch} />
+          </Grid>
+        ))}
+      </Grid>
+    </>
   );
 };
 
