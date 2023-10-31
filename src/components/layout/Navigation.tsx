@@ -1,22 +1,27 @@
 import MenuIcon from '@mui/icons-material/Menu';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+import { Badge } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
+import { useContext } from 'react';
+import { NavLink } from 'react-router-dom';
 
-const pages = ['All', 'Selected'];
+import launchesContext from '../../store/launchesContext';
+
+import { NavListWrapper } from './Navigation.styled';
 
 const Navigation = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null,
   );
+
+  const ctx = useContext(launchesContext);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -25,6 +30,19 @@ const Navigation = () => {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+
+  const NavList = () => (
+    <NavListWrapper>
+      <NavLink to="/">
+        <Typography textAlign="center">All</Typography>
+      </NavLink>
+      <Badge badgeContent={ctx.selectedLaunches.length} color="secondary">
+        <NavLink to="/selected">
+          <Typography textAlign="center">Selected</Typography>
+        </NavLink>
+      </Badge>
+    </NavListWrapper>
+  );
 
   return (
     <nav>
@@ -38,7 +56,7 @@ const Navigation = () => {
               variant="h6"
               noWrap
               component="a"
-              href="#app-bar-with-responsive-menu"
+              href="/"
               sx={{
                 mr: 2,
                 display: { xs: 'none', md: 'flex' },
@@ -81,11 +99,7 @@ const Navigation = () => {
                   display: { xs: 'block', md: 'none' },
                 }}
               >
-                {pages.map(page => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
-                  </MenuItem>
-                ))}
+                <NavList />
               </Menu>
             </Box>
             <RocketLaunchIcon
@@ -110,15 +124,7 @@ const Navigation = () => {
               LAUNCHES
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map(page => (
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  {page}
-                </Button>
-              ))}
+              <NavList />
             </Box>
           </Toolbar>
         </Container>

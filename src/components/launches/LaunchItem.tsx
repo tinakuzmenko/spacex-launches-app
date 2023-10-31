@@ -6,26 +6,36 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
 import * as React from 'react';
-import { FC } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
+
+import launchesContext from '../../store/launchesContext';
+import { Launch } from '../../types/types';
 
 interface LaunchItemProps {
-  launch: {
-    id: string;
-    launch_success: boolean | null;
-    mission_name: string;
-    details: string;
-    launch_date_local: string;
-    links: {
-      flickr_images: string[];
-    };
-    rocket: {
-      rocket_name: string;
-    };
-  };
+  launch: Launch;
 }
 
 const LaunchItem: FC<LaunchItemProps> = ({ launch }) => {
+  const ctx = useContext(launchesContext);
+  const [isSelected, setIsSelected] = useState<boolean>(false);
+
   const parsedDate = dayjs(launch.launch_date_local).format('DD MMMM YYYY');
+
+  useEffect(() => {
+    setIsSelected(
+      ctx.selectedLaunches.some(
+        selectedLaunch => selectedLaunch.id === launch.id,
+      ),
+    );
+  }, [ctx.selectedLaunches]);
+
+  const selectClickHandler = () => {
+    ctx.selectLaunch(launch.id);
+  };
+
+  const deselectClickHandler = () => {
+    ctx.deselectLaunch(launch.id);
+  };
 
   return (
     <Card
@@ -51,11 +61,17 @@ const LaunchItem: FC<LaunchItemProps> = ({ launch }) => {
           {launch.mission_name}
         </Typography>
         <Typography>{launch.rocket.rocket_name}</Typography>
+        <Typography>{launch.rocket.rocket_type}</Typography>
         <Typography>{parsedDate}</Typography>
       </CardContent>
       <CardActions>
         <Button size="small">Details</Button>
-        <Button size="small">Select</Button>
+        <Button
+          size="small"
+          onClick={!isSelected ? selectClickHandler : deselectClickHandler}
+        >
+          {!isSelected ? 'Select' : 'Deselect'}
+        </Button>
       </CardActions>
     </Card>
   );
