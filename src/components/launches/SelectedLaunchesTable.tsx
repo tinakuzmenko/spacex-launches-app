@@ -18,6 +18,7 @@ import { calculateRocketEnergyConsumption } from '../../utils/helpers';
 const SelectedLaunchesTable = () => {
   const ctx = useContext(launchesContext);
   const { selectedLaunches } = ctx;
+  const intl = new Intl.NumberFormat('en-US');
 
   const removeItemHandler = (id: string) => {
     ctx.deselectLaunch(id);
@@ -44,7 +45,7 @@ const SelectedLaunchesTable = () => {
                 {dayjs(launch.launch_date_local).format('DD MMMM YYYY')}
               </TableCell>
               <TableCell align="right">
-                {launch.rocket.rocket.mass.kg}
+                {intl.format(launch.rocket.rocket.mass.kg)}
               </TableCell>
               <TableCell align="right">
                 <Button
@@ -61,14 +62,18 @@ const SelectedLaunchesTable = () => {
           ))}
           <TableRow>
             <TableCell colSpan={3}>Total mass (kg)</TableCell>
-            <TableCell align="right">{ctx.totalSelectedLaunchesMass}</TableCell>
+            <TableCell align="right">
+              {intl.format(ctx.totalSelectedLaunchesMass)}
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell colSpan={3}>
-              Total estimated energy consumption (Joules)
+              Total estimated energy consumption (J)
             </TableCell>
             <TableCell align="right">
-              {calculateRocketEnergyConsumption(ctx.totalSelectedLaunchesMass)}
+              {intl.format(
+                calculateRocketEnergyConsumption(ctx.totalSelectedLaunchesMass),
+              )}
             </TableCell>
           </TableRow>
         </TableBody>

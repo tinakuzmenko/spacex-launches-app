@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Theme } from '@mui/material';
 
 export const NavListWrapper = styled.div`
   display: grid;
@@ -11,8 +12,12 @@ export const NavListWrapper = styled.div`
     text-decoration: none;
     color: inherit;
 
+    &:hover {
+      color: ${({ theme }: { theme: Theme }) => theme.palette.primary.main};
+    }
+
     &.active {
-      text-decoration: underline;
+      color: ${({ theme }: { theme: Theme }) => theme.palette.primary.main};
     }
   }
 

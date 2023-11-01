@@ -1,6 +1,6 @@
 import MenuIcon from '@mui/icons-material/Menu';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
-import { Badge } from '@mui/material';
+import { Badge, useTheme } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -20,6 +20,7 @@ const Navigation = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null,
   );
+  const theme = useTheme();
 
   const ctx = useContext(launchesContext);
 
@@ -32,11 +33,11 @@ const Navigation = () => {
   };
 
   const NavList = () => (
-    <NavListWrapper>
+    <NavListWrapper theme={theme}>
       <NavLink to="/">
         <Typography textAlign="center">All</Typography>
       </NavLink>
-      <Badge badgeContent={ctx.selectedLaunches.length} color="secondary">
+      <Badge badgeContent={ctx.selectedLaunches.length} color="primary">
         <NavLink to="/selected">
           <Typography textAlign="center">Selected</Typography>
         </NavLink>
@@ -46,7 +47,7 @@ const Navigation = () => {
 
   return (
     <nav>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <RocketLaunchIcon

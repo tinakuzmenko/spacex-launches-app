@@ -1,7 +1,6 @@
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Modal } from '@mui/material';
-import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -22,6 +21,7 @@ interface LaunchItemProps {
 
 const LaunchItem: FC<LaunchItemProps> = ({ launch }) => {
   const ctx = useContext(launchesContext);
+  const theme = useTheme();
   const [isSelected, setIsSelected] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const detailsClickHandler = () => setIsOpen(true);
@@ -58,7 +58,12 @@ const LaunchItem: FC<LaunchItemProps> = ({ launch }) => {
           <Typography gutterBottom variant="h5" component="h2">
             {launch.mission_name}
           </Typography>
-          <Typography>{parsedDate}</Typography>
+          <Typography sx={{ color: theme.palette.secondary.light }}>
+            {parsedDate}
+          </Typography>
+          <Typography sx={{ color: theme.palette.secondary.light }}>
+            {launch.rocket.rocket_name}
+          </Typography>
         </CardContent>
         <CardActions>
           <Button size="small" onClick={detailsClickHandler}>

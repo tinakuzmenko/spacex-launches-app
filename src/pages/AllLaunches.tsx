@@ -11,7 +11,7 @@ const AllLaunches = () => {
   const ctx = useContext(launchesContext);
 
   const { loading, error, data } = useQuery(getLaunchesByMissionQuery, {
-    variables: { mission: 'Starlink' },
+    variables: { mission: 'starlink' },
   });
 
   useEffect(() => {
@@ -22,11 +22,13 @@ const AllLaunches = () => {
     ctx.updateLaunches(launches);
   }, [data]);
 
-  if (loading) return <CircularProgress />;
+  if (loading) {
+    return <CircularProgress sx={{ display: 'grid', m: 'auto', mt: '2rem' }} />;
+  }
 
   if (error) {
     return (
-      <Alert severity="error">
+      <Alert severity="error" variant="outlined" sx={{ m: 'auto', mt: '2rem' }}>
         <AlertTitle>Error</AlertTitle>
         {error.message}
       </Alert>
